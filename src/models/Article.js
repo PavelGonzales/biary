@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 import sequelize from '../db';
 
-export default sequelize.define('article', {
+export default sequelize.define('articles', {
   id: {
     autoIncrement: true,
     primaryKey: true,
@@ -13,12 +13,12 @@ export default sequelize.define('article', {
     notEmpty: true
   },
 
-  text: {
+  date: {
     type: Sequelize.TEXT,
     notEmpty: true
   },
 
-  meta_id: {
+  userId: {
     type: Sequelize.INTEGER,
     notEmpty: true
   }

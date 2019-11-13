@@ -1,14 +1,19 @@
 import Sequelize from 'sequelize';
 import sequelize from '../db';
 
-export default sequelize.define('user', {
+export default sequelize.define('users', {
   id: {
     autoIncrement: true,
     primaryKey: true,
     type: Sequelize.INTEGER
   },
 
-  username: {
+  name: {
+    type: Sequelize.TEXT,
+    notEmpty: true
+  },
+
+  surname: {
     type: Sequelize.TEXT,
     notEmpty: true
   },
@@ -27,26 +32,5 @@ export default sequelize.define('user', {
 
   avatar: {
     type: Sequelize.TEXT,
-  },
-
-  know_words: {
-    type: Sequelize.INTEGER,
-  },
-
-  all_my_words: {
-    type: Sequelize.INTEGER,
-  },
-
-  articles_count: {
-    type: Sequelize.INTEGER,
-  },
-
-  last_login: {
-    type: Sequelize.DATE
-  },
-
-  level: {
-    type: Sequelize.INTEGER,
-    defaultValue: 0
-  },
+  }
 });
