@@ -21,7 +21,7 @@ const get = async (req, res) => {
     if (articleFromDB) {
       result = {
         content: articleFromDB.content,
-        data: {
+        date: {
           prev: getDate(articleFromDB.prevdate),
           current: getDate(articleFromDB.date),
           next: getDate(articleFromDB.nextdate)
