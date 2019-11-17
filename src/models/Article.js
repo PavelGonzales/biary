@@ -13,6 +13,11 @@ export default sequelize.define('articles', {
     notEmpty: true
   },
 
+  shortContent: {
+    type: Sequelize.TEXT,
+    notEmpty: true
+  },
+
   date: {
     type: Sequelize.TEXT,
     notEmpty: true

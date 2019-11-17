@@ -5,7 +5,7 @@ import 'dayjs/locale/ru';
 dayjs.locale('ru');
 const getDate = date => {
   return {
-    link: date ? dayjs(date).format('YYYY.MM.DD') : null,
+    link: date ? dayjs(date).format('YYYY-MM-DD') : null,
     text: date ? dayjs(date).format('DD MMMM YYYY') : null
   };
 };
@@ -40,14 +40,17 @@ const get = async (req, res) => {
 };
 
 const getList = async (req, res) => {
-  const {userId, offset, limit, type} = req.body;
+  const {userId = 1, offset, limit} = req.body;
 
   try {
-    const data = await articleService.getList({userId, offset, limit, type});
+    const data = await articleService.getList({userId, offset, limit});
 
-    res.json({
-      data
-    });
+    const result = data.map(item => ({
+      date: getDate(item.date),
+      content: item.shortContent
+    }));
+
+    res.json(result);
   } catch (err) {
     res.status(400).json({
       message: err.message

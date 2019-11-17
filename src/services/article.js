@@ -2,7 +2,6 @@ import Model from '../models';
 import sequelize from '../db';
 
 const Article = Model.Article;
-const UserWords = Model.UserWords;
 
 const get = date => {
   const query = `
@@ -20,31 +19,15 @@ const get = date => {
   return sequelize.query(query, {raw: true});
 };
 
-const getList = async ({userId, offset = 0, limit = 100, type = 'new'}) => {
-  const userWords = await UserWords.findAndCountAll({
+const getList = async ({userId, offset = 0, limit = 365}) => {
+  return await Article.findAll({
     where: {
-      userId,
-      new: type === 'new' ? true : null,
-      know: type === 'know' ? true : null,
-      not_know: type === 'not_know' ? true : null,
-      
+      userId
     },
     offset,
     limit,
     raw: true
   });
-
-  const data = await Article.findAll({
-    where: {
-      id: userWords.rows.map(item => item.word_id),
-    },
-    raw: true
-  });
-
-  return {
-    data,
-    total: userWords.count
-  };
 };
 
 const add = async () => {
