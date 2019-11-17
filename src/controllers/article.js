@@ -59,22 +59,12 @@ const getList = async (req, res) => {
 };
 
 const add = async (req, res) => {
-  const {content} = req.body;
+  const {userId = 1, content, shortContent, date} = req.body;
 
   try {
-    const wordsRes = await articleService.add({content});
+    const article = await articleService.add({userId, content, shortContent, date});
 
-    if (wordsRes.length) {
-      const word_ids = wordsRes.map(item => item.id);
-      const userId = req.user.id;
-
-      articleService.addWordsByUser({userId, word_ids});
-      articleService.setUserKnownWords({userId, word_ids});
-    }
-
-    res.json({
-      data: wordsRes
-    });
+    res.json(article);
   } catch (err) {
     res.json({
       message: err.message
