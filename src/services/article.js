@@ -30,12 +30,42 @@ const getList = async ({userId, offset = 0, limit = 365}) => {
   });
 };
 
-const add = async () => {
+const add = async ({userId, content, shortContent, date}) => {
+  const created = await Article.findOne({
+    where: {
+      userId,
+      date
+    }
+  });
 
+
+  if (created) {
+    return created.update({
+      content,
+      shortContent,
+    });
+  }
+
+  return Article.create({
+    userId,
+    content,
+    shortContent,
+    date
+  });
+};
+
+export const remove = async ({userId, date}) => {
+  return Article.destroy({
+    where: {
+      userId,
+      date
+    }
+  });
 };
 
 export default {
   get,
   getList,
-  add
+  add,
+  remove
 };

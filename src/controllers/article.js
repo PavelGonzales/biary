@@ -4,10 +4,14 @@ import 'dayjs/locale/ru';
 
 dayjs.locale('ru');
 const getDate = date => {
-  return {
-    link: date ? dayjs(date).format('YYYY-MM-DD') : null,
-    text: date ? dayjs(date).format('DD MMMM YYYY') : null
-  };
+  if (date) {
+    return {
+      link: dayjs(date).format('YYYY-MM-DD'),
+      text: dayjs(date).format('DD MMMM YYYY')
+    };
+  }
+
+  return null;
 };
 
 const get = async (req, res) => {
@@ -59,22 +63,26 @@ const getList = async (req, res) => {
 };
 
 const add = async (req, res) => {
-  const {content} = req.body;
+  const {userId = 1, content, shortContent, date} = req.body;
 
   try {
-    const wordsRes = await articleService.add({content});
+    const article = await articleService.add({userId, content, shortContent, date});
 
-    if (wordsRes.length) {
-      const word_ids = wordsRes.map(item => item.id);
-      const userId = req.user.id;
-
-      articleService.addWordsByUser({userId, word_ids});
-      articleService.setUserKnownWords({userId, word_ids});
-    }
-
+    res.json(article);
+  } catch (err) {
     res.json({
-      data: wordsRes
+      message: err.message
     });
+  }
+};
+
+const remove = async (req, res) => {
+  const {userId = 1, date} = req.body;
+
+  try {
+    const article = await articleService.remove({userId, date});
+
+    res.json(article);
   } catch (err) {
     res.json({
       message: err.message
@@ -85,5 +93,6 @@ const add = async (req, res) => {
 export default {
   get,
   add,
-  getList
+  getList,
+  remove
 };
