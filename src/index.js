@@ -5,8 +5,20 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import morgan from 'morgan';
+import multer from 'multer';
+
 import router from './routes';
 
+var storage = multer.diskStorage({
+  destination(req, file, cb) {
+    cb(null, `${__dirname}/uploads`);
+  },
+  filename(req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
+
+const upload = multer({ storage: storage });
 const app = express();
 
 app.use(morgan('dev'));
@@ -14,6 +26,8 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('client'));
+app.use(upload.single('image'));
+app.use('/image', express.static(`${__dirname}/uploads`));
 
 router.set(app);
 
