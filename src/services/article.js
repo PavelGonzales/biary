@@ -54,8 +54,18 @@ const add = async ({userId, content, shortContent, date}) => {
   });
 };
 
+export const remove = async ({userId, date}) => {
+  return Article.destroy({
+    where: {
+      userId,
+      date
+    }
+  });
+};
+
 export default {
   get,
   getList,
-  add
+  add,
+  remove
 };

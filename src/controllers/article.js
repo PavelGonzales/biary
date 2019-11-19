@@ -4,10 +4,14 @@ import 'dayjs/locale/ru';
 
 dayjs.locale('ru');
 const getDate = date => {
-  return {
-    link: date ? dayjs(date).format('YYYY-MM-DD') : null,
-    text: date ? dayjs(date).format('DD MMMM YYYY') : null
-  };
+  if (date) {
+    return {
+      link: dayjs(date).format('YYYY-MM-DD'),
+      text: dayjs(date).format('DD MMMM YYYY')
+    };
+  }
+
+  return null;
 };
 
 const get = async (req, res) => {
@@ -72,8 +76,23 @@ const add = async (req, res) => {
   }
 };
 
+const remove = async (req, res) => {
+  const {userId = 1, date} = req.body;
+
+  try {
+    const article = await articleService.remove({userId, date});
+
+    res.json(article);
+  } catch (err) {
+    res.json({
+      message: err.message
+    });
+  }
+};
+
 export default {
   get,
   add,
-  getList
+  getList,
+  remove
 };
