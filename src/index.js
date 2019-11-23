@@ -9,7 +9,7 @@ import multer from 'multer';
 
 import router from './routes';
 
-var storage = multer.diskStorage({
+const storage = multer.diskStorage({
   destination(req, file, cb) {
     cb(null, `${__dirname}/uploads`);
   },
