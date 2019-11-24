@@ -44,11 +44,11 @@ const get = async (req, res) => {
 };
 
 const getList = async (req, res) => {
-  const {userId = 1, offset, limit} = req.body;
+  const {offset, limit} = req.user;
+  const {id} = req.user;
 
   try {
-    const data = await articleService.getList({userId, offset, limit});
-
+    const data = await articleService.getList({userId: id, offset, limit});
     const result = data.map(item => ({
       date: getDate(item.date),
       content: item.shortContent

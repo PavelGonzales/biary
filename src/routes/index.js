@@ -12,7 +12,7 @@ export default {
     app.get('/auth/user', checkAuth, userController.user);
     app.get('/auth/me', userController.me);
 
-    app.get('/article/list', articleController.getList);
+    app.post('/article/list', checkAuth, articleController.getList);
     app.get('/article/:date', articleController.get);
     app.post('/article/add', articleController.add);
     app.post('/article/remove', articleController.remove);
