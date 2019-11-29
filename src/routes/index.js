@@ -10,12 +10,12 @@ export default {
     app.post('/auth/logout', authController.logout);
     app.post('/auth/registration', authController.register);
     app.get('/auth/user', checkAuth, userController.user);
-    app.get('/auth/me', userController.me);
+    app.get('/auth/me', checkAuth, userController.me);
 
     app.post('/article/list', checkAuth, articleController.getList);
-    app.get('/article/:date', articleController.get);
-    app.post('/article/add', articleController.add);
-    app.post('/article/remove', articleController.remove);
-    app.post('/article/fileUpload', fileController.upload);
+    app.get('/article/:date', checkAuth, articleController.get);
+    app.post('/article/add', checkAuth, articleController.add);
+    app.post('/article/remove', checkAuth, articleController.remove);
+    app.post('/article/fileUpload', checkAuth, fileController.upload);
   },
 };

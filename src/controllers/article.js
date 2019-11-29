@@ -16,9 +16,10 @@ const getDate = date => {
 
 const get = async (req, res) => {
   const {date} = req.params;
+  const {id} = req.user;
 
   try {
-    const rawArticleFromDB = await articleService.get(date);
+    const rawArticleFromDB = await articleService.get({userId: id, date});
     const articleFromDB = rawArticleFromDB[0][0];
     let result;
 
@@ -63,10 +64,11 @@ const getList = async (req, res) => {
 };
 
 const add = async (req, res) => {
-  const {userId = 1, content, shortContent, date} = req.body;
+  const {content, shortContent, date} = req.body;
+  const {id} = req.user;
 
   try {
-    const article = await articleService.add({userId, content, shortContent, date});
+    const article = await articleService.add({userId: id, content, shortContent, date});
 
     res.json(article);
   } catch (err) {
@@ -77,10 +79,11 @@ const add = async (req, res) => {
 };
 
 const remove = async (req, res) => {
-  const {userId = 1, date} = req.body;
+  const {date} = req.body;
+  const {id} = req.user;
 
   try {
-    const article = await articleService.remove({userId, date});
+    const article = await articleService.remove({userId: id, date});
 
     res.json(article);
   } catch (err) {
