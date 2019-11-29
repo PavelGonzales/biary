@@ -3,18 +3,19 @@ import sequelize from '../db';
 
 const Article = Model.Article;
 
-const get = date => {
+const get = ({userId, date}) => {
   const query = `
-    select id, content, prevDate, date, nextDate
+    select id, "userId", content, prevDate, date, nextDate
     from (
-        select id, 
+        select id,
+              "userId",
               content,
               lag(date) over (order by date) as prevDate,
               date,
               lead(date) over (order by date) as nextDate
         from articles
     ) as t
-    where date = '${date}'`;
+    where date = '${date}' and "userId" = '${userId}'`;
 
   return sequelize.query(query, {raw: true});
 };
