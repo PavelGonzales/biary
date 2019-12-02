@@ -1,5 +1,5 @@
-import User from './User';
-import Article from './Article';
+import User from './user';
+import Article from './article';
 
 User.hasMany(Article, {unique: false, foreignKey: 'userId'});
 

@@ -3,9 +3,19 @@ import fileController from './../controllers/file';
 import authController from './../controllers/auth';
 import userController from './../controllers/user';
 import {checkAuth} from './../middlewares/auth';
+import packageJson from './../../package.json';
 
 export default {
   set: app => {
+    app.get('/', (req, res) => {
+      res.send(`
+        name: ${packageJson.name}<br>
+        version: ${packageJson.version}<br>
+        description: ${packageJson.description}<br>
+        author: ${packageJson.author}<br>
+      `);
+    });
+
     app.post('/auth/login', authController.login);
     app.post('/auth/logout', authController.logout);
     app.post('/auth/registration', authController.register);

@@ -1,17 +1,16 @@
 {
-  "name": "e-lingo.backend",
+  "name": "biary",
   "version": "1.0.0",
-  "description": "Pet project",
+  "description": "API for Fiary",
   "main": "src/ndex.js",
   "scripts": {
     "dev": "nodemon -w src --exec \"babel-node src --presets es2015,stage-0\"",
     "build": "npm run clean && babel src -s -D -d build --presets es2015,stage-0",
-    "heroku-postbuild": "npm install",
     "clean": "rm -rf build/",
     "start": "pm2 start build/index.js --name backend",
     "test": "eslint src"
   },
-  "author": "Pavel Gonzales",
+  "author": "Pavel Gonzales develop.gonzales@gmail.com",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^3.0.1",
