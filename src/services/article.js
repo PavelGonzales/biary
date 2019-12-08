@@ -31,7 +31,7 @@ const getList = async ({userId, offset = 0, limit = 365}) => {
   });
 };
 
-const add = async ({userId, content, shortContent, date}) => {
+const add = async ({userId, content, date}) => {
   const created = await Article.findOne({
     where: {
       userId,
@@ -42,15 +42,35 @@ const add = async ({userId, content, shortContent, date}) => {
 
   if (created) {
     return created.update({
-      content,
-      shortContent,
+      content
     });
   }
 
   return Article.create({
     userId,
     content,
-    shortContent,
+    date
+  });
+};
+
+const update = async ({userId, content, date}) => {
+  const created = await Article.findOne({
+    where: {
+      userId,
+      date
+    }
+  });
+
+
+  if (created) {
+    return created.update({
+      content: `${created.content}${content}`
+    });
+  }
+
+  return Article.create({
+    userId,
+    content,
     date
   });
 };
@@ -68,5 +88,6 @@ export default {
   get,
   getList,
   add,
+  update,
   remove
 };

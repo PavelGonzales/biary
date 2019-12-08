@@ -4,9 +4,18 @@ import Model from '../models';
 const Users = Model.User;
 
 const addUser = user => Users.create(user);
+
 const getUserByEmail = email => Users.findOne({
   where: {
     email
+  },
+  returning: true,
+  raw: true
+});
+
+const getUserByTelegramId = telegramId => Users.findOne({
+  where: {
+    telegramId
   },
   returning: true,
   raw: true
@@ -32,8 +41,39 @@ const getUserByToken = token => {
   });
 };
 
+const updateUserByBotKey = async (key, telegramId) => {
+  if (!key) {
+    throw new Error('Пустой ключ от ота');
+  }
+
+
+  return jwt.verify(key, process.env.PG_SECRET, async (err, decoded) => {
+    if (err) {
+      throw new Error('Ошибка получения ключа бота');
+    }
+
+    const user = await Users.findOne({
+      where: {
+        email: decoded
+      }
+    });
+
+    if (user) {
+      await user.update({
+        telegramId: telegramId,
+      });
+
+      return user.dataValues;
+    }
+
+    return null;
+  });
+};
+
 export default {
   addUser,
   getUserByEmail,
-  getUserByToken
+  getUserByToken,
+  updateUserByBotKey,
+  getUserByTelegramId
 };

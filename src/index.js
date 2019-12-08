@@ -8,6 +8,7 @@ import morgan from 'morgan';
 import multer from 'multer';
 
 import router from './routes';
+import TelegramBot from './bot';
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
@@ -30,6 +31,8 @@ app.use(upload.single('image'));
 app.use('/image', express.static(`${__dirname}/uploads`));
 
 router.set(app);
+
+TelegramBot.launch();
 
 app.listen(
   process.env.PORT,
