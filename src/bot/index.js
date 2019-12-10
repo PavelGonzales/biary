@@ -32,8 +32,8 @@ bot.action('hasAccount', (ctx) => ctx.reply('Введите ваш ключ к �
 bot.action('notHasAccount', (ctx) => ctx.replyWithHTML('Пожалуйста, зарегистрируйтесь на <a href="http://localhost:3000/?auth=open">http://localhost:3000/?auth=open</a>'));
 
 bot.on('text', async ctx => {
-  const {text, date} = ctx.update.message;
-  const telegramId = ctx.update.message.from.id;
+  const {text, date, from} = ctx.update.message;
+  const telegramId = from.id;
   let user;
 
   if (text.includes('key:')) {
