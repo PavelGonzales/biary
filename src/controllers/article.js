@@ -51,8 +51,7 @@ const getList = async (req, res) => {
   try {
     const data = await articleService.getList({userId: id, offset, limit});
     const result = data.map(item => ({
-      date: getDate(item.date),
-      content: item.shortContent
+      date: getDate(item.date)
     }));
 
     res.json(result);
@@ -64,11 +63,11 @@ const getList = async (req, res) => {
 };
 
 const add = async (req, res) => {
-  const {content, shortContent, date} = req.body;
+  const {content, date} = req.body;
   const {id} = req.user;
 
   try {
-    const article = await articleService.add({userId: id, content, shortContent, date});
+    const article = await articleService.add({userId: id, content, date});
 
     res.json(article);
   } catch (err) {

@@ -25,6 +25,16 @@ export default sequelize.define('users', {
     }
   },
 
+  botKey: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
+
+  telegramId: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
+
   password: {
     type: Sequelize.STRING,
     allowNull: false

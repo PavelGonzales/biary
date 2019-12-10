@@ -33,7 +33,8 @@ const me = async (req, res) => {
       name,
       surname,
       email,
-      avatar
+      avatar,
+      botKey
     } = user;
 
     res.json({
@@ -41,7 +42,8 @@ const me = async (req, res) => {
       name,
       surname,
       email,
-      avatar
+      avatar,
+      botKey
     });
   } catch (err) {
     res.status(400).json({

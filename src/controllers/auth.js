@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import authService from './../services/auth';
 import userService from './../services/user';
 
@@ -33,7 +34,8 @@ const register = async (req, res) => {
       name,
       surname,
       email,
-      password: bcrypt.hashSync(password, Number(process.env.PG_SALT_ROUNDS))
+      password: bcrypt.hashSync(password, Number(process.env.PG_SALT_ROUNDS)),
+      botKey: jwt.sign(email, process.env.PG_SECRET)
     };
 
     try {
